@@ -10,6 +10,6 @@ We ██████ at ████ . ██████ will stop us . We wil
 ```
 
 ```bash
-~ $ ./sterilize "We attack at dawn. Nobody will stop us. We will come in on their flank, absolutely unbeatable." --markdown
+~ $ ./sterilize "We attack at dawn. We will come in on their flank, absolutely unbeatable." --markdown
 We ||██████|| at ||████|| . ||██████|| will stop us . We will come in on their ||█████||, ||██████████|| unbeatable.
 ```
