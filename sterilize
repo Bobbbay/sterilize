@@ -1,12 +1,36 @@
 #!/usr/bin/env python3
 import click
+import nltk
 
 @click.command()
-@click.argument('name')
-@click.option('--greeting', '-g')
-def main(name, greeting):
-    click.echo("{}, {}".format(greeting, name))
+@click.argument('text')
+@click.option('--markdown', '-m', is_flag=True)
+def main(text, markdown):
+    """A simple CLI utility for smart ████ing your text, based on nouns and verbs."""
+    click.echo("{}".format( sterilize(text, markdown) ))
 
+def sterilize(text, markdown):
+    tokenized_sentence = nltk.sent_tokenize(text)
+    completed = ""
+    for i in tokenized_sentence:
+        tokenized = nltk.word_tokenize(i)
+        tagged = nltk.pos_tag(tokenized)
+        x = 0
+        for i in tagged:
+            x += 1
+            if i[1] == "NN" or i[1] == "RB" or i[1] == "VBZ" or i[1] == "VBP":
+                if not markdown:
+                    tokenized[x-1] = "{}".format(getRedacted(tokenized[x-1]))
+                else:
+                    tokenized[x-1] = "||{}||".format(tokenized[x-1])
+        completed += ' ' + ' '.join(tokenized[:-2] + [''.join(tokenized[-2:])])
+    return completed
+
+def getRedacted(word):
+    length = ""
+    for i in range(len(word)):
+        length += "█"
+    return length
 
 if __name__ == "__main__":
     main()
